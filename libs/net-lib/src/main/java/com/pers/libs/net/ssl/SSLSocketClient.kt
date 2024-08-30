@@ -44,7 +44,7 @@ object SSLSocketClient {
 
 
     fun getTrustManager(): X509TrustManager? {
-        var trustManagerFactory: TrustManagerFactory? = null
+        var trustManagerFactory: TrustManagerFactory?
         try {
             trustManagerFactory =
                 TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm())

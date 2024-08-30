@@ -20,7 +20,13 @@ dependencies {
         implementation project(it)
     }
 
-    implementation Config.jetpack.lifecycle
+    Config.modules.common.each {
+        implementation project(it)
+    }
+
+//    Config.modules.module.each {
+//        implementation project(it)
+//    }
 
     implementation Config.commonView.background
 

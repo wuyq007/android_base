@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.pres.common.view.R;
 
 /**
  * 推荐使用 DialogFragment，使用 Navigation 统一管理

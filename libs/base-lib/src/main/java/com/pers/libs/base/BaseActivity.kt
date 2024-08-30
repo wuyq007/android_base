@@ -2,7 +2,6 @@ package com.pers.libs.base
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,6 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import com.pers.libs.base.app.AppConfig
 import com.pers.libs.base.app.AppLifecycleObserver
-import com.pers.libs.base.app.addAppLifecycleObserver
 import com.pers.libs.base.app.removeAppLifecycleObserver
 import com.pers.libs.base.databinding.ActivityBaseBinding
 import com.pers.libs.base.utils.ScreenUtils
@@ -48,8 +46,6 @@ open class BaseActivity : AppCompatActivity(), CoroutineScope {
         mainJob = SupervisorJob()
 
         initViews()
-
-        enabledAppLifecycleObserver()
     }
 
     private fun initViews() {
@@ -68,30 +64,7 @@ open class BaseActivity : AppCompatActivity(), CoroutineScope {
 
     private var appLifecycleObserver: AppLifecycleObserver? = null
 
-    /**
-     * 监听程序是否退出到后台
-     */
-    fun enabledAppLifecycleObserver() {
-        appLifecycleObserver = AppConfig.application.addAppLifecycleObserver {
-            object : AppLifecycleObserver {
-                override fun onAppStarted() {
-                    onAppStart()
-                }
 
-                override fun onAppStopped() {
-                    onAppStop()
-                }
-            }
-        }
-    }
-
-    open fun onAppStart() {
-        Log.e("AAA", "程序回到前台")
-    }
-
-    open fun onAppStop() {
-        Log.e("AAA", "程序最小化到后台")
-    }
 
     open fun hideTitleLayout() {
         baseBinding.baseTitleLayout.visibility = View.GONE

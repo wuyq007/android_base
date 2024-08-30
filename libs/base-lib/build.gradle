@@ -15,10 +15,6 @@ android {
 
 dependencies {
 
-    implementation Config.jetpack.datastore
-    implementation Config.jetpack.lifecycle
-    kapt Config.jetpack.kapt_lifecycle
-
     implementation Config.commonView.background
 
 }

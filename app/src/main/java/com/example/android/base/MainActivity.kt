@@ -1,7 +1,6 @@
 package com.example.android.base
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import com.example.android.base.databinding.ActivityMainBinding
@@ -19,9 +18,6 @@ import kotlinx.coroutines.launch
 class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
-    var screenWidth = AppConfig.screenWidth
-    var screenHeight = AppConfig.screenHeight
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,13 +61,27 @@ class MainActivity : BaseActivity() {
 
     private fun setContent() {
         val stringBuilder = StringBuilder()
-        stringBuilder.append("API 版本：").append(Build.VERSION.SDK_INT).append("\n")
-        stringBuilder.append("systemVersion：").append(systemVersion).append("\n")
-        stringBuilder.append("buildId：").append(buildId).append("\n")
-        stringBuilder.append("screenWidth：").append(screenWidth).append("\n")
-        stringBuilder.append("screenHeight：").append(screenHeight).append("\n")
-        stringBuilder.append("statusBarHeight：").append(AppConfig.statusBarHeight).append("\n")
-        binding.tvContent.text = stringBuilder.toString()
+
+        AppConfig.apply {
+            stringBuilder.append("appName：").append(appName).append("\n")
+            stringBuilder.append("packageName：").append(packageName).append("\n")
+            stringBuilder.append("versionName：").append(versionName).append("\n")
+            stringBuilder.append("versionCode：").append(versionCode).append("\n")
+            stringBuilder.append("deviceVersion：").append(deviceVersion).append("\n")
+            stringBuilder.append("systemVersion：").append(systemVersion).append("\n")
+            stringBuilder.append("buildId：").append(buildId).append("\n")
+            stringBuilder.append("screenWidth：").append(screenWidth).append("\n")
+            stringBuilder.append("screenHeight：").append(screenHeight).append("\n")
+            stringBuilder.append("realWidth：").append(realWidth).append("\n")
+            stringBuilder.append("realHeight：").append(realHeight).append("\n")
+            stringBuilder.append("windowWidth：").append(windowWidth).append("\n")
+            stringBuilder.append("windowHeight：").append(windowHeight).append("\n")
+            stringBuilder.append("statusBarHeight：").append(statusBarHeight).append("\n")
+            stringBuilder.append("navigationHeight：").append(navigationHeight).append("\n")
+            stringBuilder.append("是否显示虚拟按键：").append(isShowBottomNavigationBar).append("\n")
+            binding.tvContent.text = stringBuilder.toString()
+        }
+
     }
 
 }

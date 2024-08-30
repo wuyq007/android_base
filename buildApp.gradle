@@ -64,23 +64,23 @@ android {
         exclude 'META-INF/*'
     }
 
-    dexOptions {
-        dexInProcess = true
-        javaMaxHeapSize '8g' //设置运行 dx 的最大内存
-
-        //可以编译更大的 dex 字节码文件 , 编译出的 dex 文件中存放更多的函数;
-        //每个 dex 的字符串索引默认2^16 ,true支持到 2^32
-        jumboMode true
-
-        maxProcessCount 8 //用于dex的最大并发进程数，默认为4。
-        //预编译 dex 库。在我们build的时候会快些，但clean时便会慢，默认开启
-        preDexLibraries true
-        threadCount 4  //运行dx时使用的线程数。 默认为4。
-
-        //将所有带有运行时注释的类保留在旧版multidex中的主dex中。默认开启
-        //对于不使用反射并在其主dex中需要更多空间的应用，可以禁用此功能。
-        keepRuntimeAnnotatedClasses = false
-    }
+//    dexOptions {
+//        dexInProcess = true
+//        javaMaxHeapSize '8g' //设置运行 dx 的最大内存
+//
+//        //可以编译更大的 dex 字节码文件 , 编译出的 dex 文件中存放更多的函数;
+//        //每个 dex 的字符串索引默认2^16 ,true支持到 2^32
+//        jumboMode true
+//
+//        maxProcessCount 8 //用于dex的最大并发进程数，默认为4。
+//        //预编译 dex 库。在我们build的时候会快些，但clean时便会慢，默认开启
+//        preDexLibraries true
+//        threadCount 4  //运行dx时使用的线程数。 默认为4。
+//
+//        //将所有带有运行时注释的类保留在旧版multidex中的主dex中。默认开启
+//        //对于不使用反射并在其主dex中需要更多空间的应用，可以禁用此功能。
+//        keepRuntimeAnnotatedClasses = false
+//    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -99,7 +99,19 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
-    implementation Config.packages.base
-    testImplementation Config.packages.baseTest
-    androidTestImplementation Config.packages.baseAndroidTest
+    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.11.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.datastore:datastore-preferences:1.0.0'
+
+    //同版本2.6.1
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
+    //同版本7.4.2
+    implementation 'androidx.databinding:databinding-runtime:7.4.2'
 }

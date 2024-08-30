@@ -12,6 +12,8 @@ import android.util.TypedValue;
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 
+import com.pres.common.view.R;
+
 
 public class UnderlineTextView extends androidx.appcompat.widget.AppCompatTextView {
 

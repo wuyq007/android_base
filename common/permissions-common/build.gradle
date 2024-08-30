@@ -1,0 +1,24 @@
+apply {
+    from "${project.rootDir.path}/buildLibrary.gradle"
+}
+
+android {
+
+    namespace 'com.pres.common.permissions'
+
+    defaultConfig {
+
+    }
+
+    buildTypes {
+
+    }
+}
+
+dependencies {
+
+    implementation project(":libs:base-lib")
+
+    implementation 'com.github.getActivity:XXPermissions:18.6'
+
+}

@@ -16,6 +16,8 @@ android {
 dependencies {
 
     implementation project(path: ':libs:base-lib')
+
+
     Config.square.each {
         implementation it.value
     }

@@ -241,6 +241,65 @@ object ScreenUtils {
         }
     }
 
+
+    /**
+     * 启用导航栏沉浸式
+     */
+    fun enableNavigationBarImmersive(activity: Activity, enable: Boolean) {
+        val window: Window = activity.window
+        if (enable) {
+            val uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+            window.decorView.systemUiVisibility = uiOptions
+            //将底部导航栏背景设置为透明
+            setNavigationBarColor(activity, Color.TRANSPARENT)
+        } else {
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        }
+    }
+
+    /**
+     * 设置底部虚拟按键 \ 底部导航栏 图标颜色
+     *
+     * @param isDark = true  深色背景，白色图标
+     * @param isDark = false  浅色背景，黑色图标
+     */
+    fun setNavigationBarModule(activity: Activity, isDark: Boolean = false) {
+        if (Build.VERSION.SDK_INT >= 30) {
+            val controller = ViewCompat.getWindowInsetsController(activity.window.decorView)
+            if (controller != null) {
+                controller.isAppearanceLightNavigationBars = isDark
+                return
+            }
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (isDark) {
+                activity.window.decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR)
+            } else {
+                activity.window.decorView.setSystemUiVisibility(0)
+            }
+        }
+    }
+
+
+    /**
+     * 设置底部导航栏背景（小米手机如果设置了 setNavigationBarModule(false)，又同时设置了深色背景，导航栏的图标会改成浅色模式）
+     */
+    fun setNavigationBarColorResource(activity: Activity, @ColorRes colorId: Int) {
+        setNavigationBarColor(
+            activity, ContextCompat.getColor(activity.applicationContext, colorId)
+        )
+    }
+
+    fun setNavigationBarColorString(activity: Activity, @Size(min = 1) colorString: String) {
+        setNavigationBarColor(activity, Color.parseColor(colorString))
+    }
+
+    fun setNavigationBarColor(activity: Activity, @ColorInt colorInt: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            activity.window.navigationBarColor = colorInt
+        }
+    }
+
     /**
      * 隐藏导航栏
      */
@@ -291,6 +350,18 @@ object ScreenUtils {
         } else {
             //显示状态栏
             activity.window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        }
+    }
+
+    /**
+     * 禁止 屏幕截屏
+     */
+    fun disableScreenCapture(activity: Activity, isDisable: Boolean) {
+        if (isDisable) {
+            activity.window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
+
+        } else {
+            activity.window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
         }
     }
 

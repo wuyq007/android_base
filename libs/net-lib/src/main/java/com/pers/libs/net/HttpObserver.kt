@@ -156,16 +156,18 @@ object HttpObserver {
         val bodyParams: HashMap<String, Any> = addBaseBodyParam(HashMap())
         val headerParams: HashMap<String, Any> = addBaseHeaderParam(HashMap())
         bodyParams.putAll(params)
-        return if (requestType == REQUEST.POST) {
-            RetrofitManager.getInstance().create(ApiService::class.java).post(urlPath, params, headerParams)
-        } else (RetrofitManager.getInstance().create(ApiService::class.java).get(urlPath, params, headerParams))
+        return when (requestType) {
+            REQUEST.POST -> RetrofitManager.getInstance().create(ApiService::class.java).post(urlPath, params, headerParams)
+            REQUEST.GET -> RetrofitManager.getInstance().create(ApiService::class.java).get(urlPath, params, headerParams)
+            REQUEST.PUT -> RetrofitManager.getInstance().create(ApiService::class.java).put(urlPath, params, headerParams)
+            REQUEST.DELETE -> RetrofitManager.getInstance().create(ApiService::class.java).delete(urlPath, params, headerParams)
+        }
     }
 
 
     enum class REQUEST {
-        POST, GET
+        POST, GET, PUT, DELETE
     }
-
 
     /**
      * Body的通用参数

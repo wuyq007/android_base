@@ -1,0 +1,30 @@
+apply {
+    from "${project.rootDir.path}/buildLibrary.gradle"
+}
+
+android {
+
+    namespace 'com.pres.common.glide'
+
+    defaultConfig {
+
+    }
+
+    buildTypes {
+
+    }
+}
+
+dependencies {
+
+    implementation project(":libs:base-lib")
+
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+    //高斯模糊
+    implementation 'jp.wasabeef:glide-transformations:4.3.0'
+    //支持 WebP 动图
+    implementation 'com.github.zjupure:webpdecoder:2.6.4.16.0'
+    //支持 Lottie 动图
+    implementation 'com.airbnb.android:lottie:6.4.1'
+
+}

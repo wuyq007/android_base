@@ -1,5 +1,6 @@
 package com.pers.libs.base.app
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
 import android.app.Application.ActivityLifecycleCallbacks
@@ -9,26 +10,56 @@ interface AppLifecycleObserver {
     /**
      * App 进入前台
      */
-    fun onAppStarted(){}
+    fun onAppStarted() {}
 
     /**
      * App 进入后台
      */
-    fun onAppStopped(){}
+    fun onAppStopped() {}
 }
 
 fun Application.addAppLifecycleObserver(block: (Application) -> AppLifecycleObserver): AppLifecycleObserver {
     val observer: AppLifecycleObserver = block(this)
-    AppLifecycleCallbacks.addAppLifecycleListener(observer)
-    this.registerActivityLifecycleCallbacks(AppLifecycleCallbacks)
+    val appLifecycleCallbacks: AppLifecycleCallbacks = AppLifecycleCallbacks.getInstance()
+    appLifecycleCallbacks.addAppLifecycleListener(observer)
+    this.registerActivityLifecycleCallbacks(appLifecycleCallbacks)
     return observer
 }
 
 fun removeAppLifecycleObserver(observer: AppLifecycleObserver) {
-    AppLifecycleCallbacks.removeAppLifecycleListener(observer)
+    AppLifecycleCallbacks.getInstance().removeAppLifecycleListener(observer)
 }
 
-object AppLifecycleCallbacks : ActivityLifecycleCallbacks {
+fun getCurrentActivity(): Activity? {
+    return AppLifecycleCallbacks.getInstance().getCurrentActivity()
+}
+
+fun getActivityList(): MutableList<Activity> {
+    return AppLifecycleCallbacks.getInstance().getActivityList()
+}
+
+private class AppLifecycleCallbacks : ActivityLifecycleCallbacks {
+
+    private var currentActivity: Activity? = null
+
+    private val activityList: MutableList<Activity> = ArrayList()
+
+    fun getCurrentActivity(): Activity? {
+        return currentActivity
+    }
+
+    fun getActivityList(): MutableList<Activity> {
+        return activityList
+    }
+
+    companion object {
+        fun getInstance() = SingletonHolder.INSTANCE
+    }
+
+    object SingletonHolder {
+        @SuppressLint("StaticFieldLeak")
+        val INSTANCE = AppLifecycleCallbacks()
+    }
 
     /**
      * Activity started count
@@ -60,12 +91,14 @@ object AppLifecycleCallbacks : ActivityLifecycleCallbacks {
     }
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+        activityList.add(activity)
     }
 
     override fun onActivityStarted(activity: Activity) {
         mActivityCount++
         if (isRunInBackground) {
             //应用从后台回到前台 需要做的操作
+            AppConfig.update()
             isRunInBackground = false
             for (listener in mAppObserver) {
                 listener.onAppStarted()
@@ -74,9 +107,13 @@ object AppLifecycleCallbacks : ActivityLifecycleCallbacks {
     }
 
     override fun onActivityResumed(activity: Activity) {
+        currentActivity = activity;
     }
 
     override fun onActivityPaused(activity: Activity) {
+        if (currentActivity == activity) {
+            currentActivity = null
+        }
     }
 
     override fun onActivityStopped(activity: Activity) {
@@ -94,6 +131,7 @@ object AppLifecycleCallbacks : ActivityLifecycleCallbacks {
     }
 
     override fun onActivityDestroyed(activity: Activity) {
+        activityList.remove(activity)
     }
 
 }

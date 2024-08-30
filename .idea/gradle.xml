@@ -14,6 +14,8 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/common" />
+            <option value="$PROJECT_DIR$/common/glide-common" />
+            <option value="$PROJECT_DIR$/common/permissions-common" />
             <option value="$PROJECT_DIR$/common/view-common" />
             <option value="$PROJECT_DIR$/libs" />
             <option value="$PROJECT_DIR$/libs/base-lib" />

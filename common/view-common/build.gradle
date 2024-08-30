@@ -3,6 +3,9 @@ apply {
 }
 
 android {
+
+    namespace 'com.pres.common.view'
+
     defaultConfig {
 
     }
